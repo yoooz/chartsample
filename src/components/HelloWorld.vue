@@ -1,42 +1,105 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <canvas ref="chart"></canvas>
 </template>
 
 <script>
+import { Chart, registerables } from "chart.js";
+Chart.register(...registerables);
+
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String
+  },
+  mounted() {
+    const labels = [
+      ["東京本社", "123人"],
+      ["札幌営業所", "23人"],
+      ["仙台営業所", "13人"],
+      ["大阪営業所", "65人"],
+      ["福岡営業所", "65人"],
+      ["那覇営業所", "10人"]
+    ];
+
+    const data = {
+      labels: labels,
+      datasets: [
+        {
+          label: "Data A",
+          data: [70, 80, 80, 70, 70, 80, 70, 70, 80, 70],
+          backgroundColor: "rgb(0, 123, 177)"
+        },
+        {
+          label: "Data B",
+          data: [40, 50, 40, 50, 40, 40, 40, 50, 40, 50],
+          backgroundColor: "rgb(74, 136, 162)"
+        },
+        {
+          label: "Data C",
+          data: [40, 50, 50, 60, 40, 30, 30, 50, 60, 80],
+          backgroundColor: "rgb(176, 210, 228)"
+        },
+        {
+          label: "Data D",
+          data: [30, 20, 30, 30, 20, 20, 30, 30, 20, 20],
+          backgroundColor: "rgb(251, 172, 129)"
+        }
+      ]
+    };
+
+    const config = {
+      type: "bar",
+      data,
+      options: {
+        indexAxis: "y",
+        animation: {
+          duration: 500
+        },
+        // 積み上げ棒のtopを角丸にする
+        elements: {
+          bar: {
+            borderRadius: 5
+          }
+        },
+        plugins: {
+          // タイトルの設定
+          title: {
+            display: true,
+            position: "top",
+            align: "start",
+            font: {
+              size: "18"
+            },
+            color: "black",
+            text: "グラフタイトル",
+            // topとbottomしか設定できないので↓スペースで調整してる↑
+            padding: {
+              top: 60,
+              bottom: 4
+            }
+          },
+          // 凡例の非表示
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            stacked: true
+          },
+          y: {
+            stacked: true,
+            // y軸の目盛軸を非表示にする
+            grid: { drawBorder: false },
+            // y軸を0始まりにする
+            min: 0
+          }
+        }
+      }
+    };
+    new Chart(this.$refs.chart, config);
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
