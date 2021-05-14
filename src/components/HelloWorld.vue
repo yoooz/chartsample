@@ -1,121 +1,151 @@
 <template>
-  <canvas ref="chart"></canvas>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="200"
+        />
+      </v-col>
+
+      <v-col class="mb-4">
+        <h1 class="display-2 font-weight-bold mb-3">
+          Welcome to Vuetify
+        </h1>
+
+        <p class="subheading font-weight-regular">
+          For help and collaboration with other Vuetify developers,
+          <br>please join our online
+          <a
+            href="https://community.vuetifyjs.com"
+            target="_blank"
+          >Discord Community</a>
+        </p>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          What's next?
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(next, i) in whatsNext"
+            :key="i"
+            :href="next.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ next.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          Important Links
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(link, i) in importantLinks"
+            :key="i"
+            :href="link.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ link.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          Ecosystem
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(eco, i) in ecosystem"
+            :key="i"
+            :href="eco.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ eco.text }}
+          </a>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { Chart, registerables } from "chart.js";
-Chart.register(...registerables);
+  export default {
+    name: 'HelloWorld',
 
-export default {
-  name: "HelloWorld",
-  props: {
-    msg: String
-  },
-  mounted() {
-    const labels = [
-      ["東京本社", "123人"],
-      ["札幌営業所", "23人"],
-      ["仙台営業所", "13人"],
-      ["大阪営業所", "65人"],
-      ["福岡営業所", "65人"],
-      ["那覇営業所", "10人"]
-    ];
-
-    const data = {
-      labels: labels,
-      datasets: [
+    data: () => ({
+      ecosystem: [
         {
-          label: "Data A",
-          data: [70, 80, 80, 70, 70, 80, 70, 70, 80, 70],
-          backgroundColor: "rgb(0, 123, 177)"
+          text: 'vuetify-loader',
+          href: 'https://github.com/vuetifyjs/vuetify-loader',
         },
         {
-          label: "Data B",
-          data: [40, 50, 40, 50, 40, 40, 40, 50, 40, 50],
-          backgroundColor: "rgb(74, 136, 162)"
+          text: 'github',
+          href: 'https://github.com/vuetifyjs/vuetify',
         },
         {
-          label: "Data C",
-          data: [40, 50, 50, 60, 40, 30, 30, 50, 60, 80],
-          backgroundColor: "rgb(176, 210, 228)"
+          text: 'awesome-vuetify',
+          href: 'https://github.com/vuetifyjs/awesome-vuetify',
+        },
+      ],
+      importantLinks: [
+        {
+          text: 'Documentation',
+          href: 'https://vuetifyjs.com',
         },
         {
-          label: "Data D",
-          data: [30, 20, 30, 30, 20, 20, 30, 30, 20, 20],
-          backgroundColor: "rgb(251, 172, 129)"
-        }
-      ]
-    };
-
-    const config = {
-      type: "bar",
-      data,
-      options: {
-        indexAxis: "y",
-        animation: {
-          duration: 500
+          text: 'Chat',
+          href: 'https://community.vuetifyjs.com',
         },
-        // 積み上げ棒のtopを角丸にする
-        elements: {
-          bar: {
-            borderRadius: 5
-          }
+        {
+          text: 'Made with Vuetify',
+          href: 'https://madewithvuejs.com/vuetify',
         },
-        plugins: {
-          // タイトルの設定
-          title: {
-            display: true,
-            position: "top",
-            align: "start",
-            font: {
-              size: "18"
-            },
-            color: "black",
-            text: "グラフタイトル",
-            // topとbottomしか設定できないので↓スペースで調整してる↑
-            padding: {
-              top: 60,
-              bottom: 4
-            }
-          },
-          // 凡例の非表示
-          legend: {
-            display: false
-          }
+        {
+          text: 'Twitter',
+          href: 'https://twitter.com/vuetifyjs',
         },
-        scales: {
-          x: {
-            stacked: true
-          },
-          y: {
-            stacked: true,
-            // y軸の目盛軸を非表示にする
-            grid: { drawBorder: false },
-            // y軸を0始まりにする
-            min: 0
-          }
-        }
-      }
-    };
-    new Chart(this.$refs.chart, config);
+        {
+          text: 'Articles',
+          href: 'https://medium.com/vuetify',
+        },
+      ],
+      whatsNext: [
+        {
+          text: 'Explore components',
+          href: 'https://vuetifyjs.com/components/api-explorer',
+        },
+        {
+          text: 'Select a layout',
+          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
+        },
+        {
+          text: 'Frequently Asked Questions',
+          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+        },
+      ],
+    }),
   }
-};
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
